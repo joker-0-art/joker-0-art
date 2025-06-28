@@ -1,57 +1,85 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>joker-md | Pairing UI</title>
+  <meta charset="UTF-8" />
+  <title>🤖 joker-art | WhatsApp Pairing</title>
+  <script src="/socket.io/socket.io.js"></script>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #111;
-      color: #eee;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      height: 100vh;
-    }
-    form {
-      background: #222;
-      padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 10px rgba(255,255,255,0.1);
+      background: #0a0a0a;
+      color: #0f0;
+      font-family: monospace;
       text-align: center;
+      padding: 40px;
     }
-    input[type="text"] {
+    input {
       padding: 10px;
-      font-size: 16px;
-      width: 250px;
-      border: none;
-      border-radius: 5px;
-      margin-bottom: 15px;
+      font-size: 18px;
+      width: 260px;
+      border-radius: 8px;
+      border: 2px solid #0f0;
+      background: #000;
+      color: #0f0;
+      margin-bottom: 10px;
     }
     button {
       padding: 10px 20px;
-      background: #00c853;
-      border: none;
-      color: white;
-      border-radius: 5px;
       font-size: 16px;
+      background: #0f0;
+      color: #000;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
     }
-    button:hover {
-      background: #00e676;
+    img {
+      margin-top: 20px;
+      width: 260px;
+      border: 2px solid #0f0;
+      display: none;
     }
-    h2 {
-      margin-bottom: 20px;
+    #pairCodeText {
+      font-size: 1.5em;
+      margin-top: 15px;
+      color: #00ffff;
     }
   </style>
 </head>
 <body>
-  <form action="/submit" method="POST">
-    <h2>🤖 joker-md | Ingiza namba yako ya WhatsApp</h2>
-    <input type="text" name="phone" placeholder="Mfano: 2557XXXXXXXX" required />
-    <br>
-    <button type="submit">🔐 Pata Pairing Code</button>
-  </form>
+  <h1>🤖 joker-art Bot</h1>
+
+  <h3>📲 Ingiza Namba Yako ya WhatsApp</h3>
+  <input type="text" id="numberInput" placeholder="e.g. 255712345678" />
+  <br />
+  <button onclick="submitNumber()">Tuma Namba</button>
+
+  <div id="pairCodeText">⏳ Pairing code itatokea hapa...</div>
+  <img id="qrImg" />
+
+  <script>
+    const socket = io();
+
+    // On QR Code received
+    socket.on("qr", (data) => {
+      const img = document.getElementById("qrImg");
+      img.src = data;
+      img.style.display = "block";
+    });
+
+    // On Pairing Code received
+    socket.on("pairingCode", (code) => {
+      document.getElementById("pairCodeText").innerText = "🔐 Pairing Code: " + code;
+    });
+
+    // Submit number to server
+    function submitNumber() {
+      const number = document.getElementById("numberInput").value.trim();
+      if (number.length < 10 || isNaN(number)) {
+        alert("⚠️ Tafadhali weka namba sahihi ya WhatsApp (mfano 2557XXXXXXX)");
+        return;
+      }
+      socket.emit("submitNumber", number);
+      alert("✅ Namba imetumwa! Pairing code au QR itaonekana hapa.");
+    }
+  </script>
 </body>
 </html>
