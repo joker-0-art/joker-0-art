@@ -1,0 +1,44 @@
+services:
+  - type: web
+    name: joker-art-bot
+    env: node
+    region: oregon
+    plan: free
+    branch: main
+    buildCommand: npm install
+    startCommand: node index.js
+    envVars:
+      - key: BOT_NAME
+        value: joker-art
+      - key: OWNER
+        value: 255760317060
+      - key: PREFIX
+        value: ","
+      - key: SESSION_FOLDER
+        value: ./sessions
+      - key: AUTO_TYPING
+        value: on
+      - key: AUTO_READ
+        value: on
+      - key: AUTO_RECORD
+        value: off
+      - key: AUTO_REACT
+        value: off
+      - key: ANTILINK
+        value: on
+      - key: ANTIDELETE
+        value: on
+      - key: AUTOVIEW_STATUS
+        value: on
+      - key: AI_COMMANDS
+        value: on
+      - key: FUN_COMMANDS
+        value: on
+      - key: MEDIA_COMMANDS
+        value: on
+      - key: DOWNLOAD_COMMANDS
+        value: on
+      - key: ADMIN_COMMANDS
+        value: on
+      - key: OPENAI_API_KEY
+        sync: false  # ← You will set this manually in Render dashboard
