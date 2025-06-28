@@ -1,0 +1,58 @@
+# 🔧 CORE SETTINGS
+BOT_NAME=joker-art
+OWNER=255760317060
+PREFIX=,
+
+# 💬 AUTO SETTINGS
+AUTO_TYPING=on
+AUTO_RECORD=off
+AUTO_READ=on
+AUTO_REACT=off
+AUTO_BIO=off
+AUTO_BLOCK_PRIVATE=off
+
+# 📂 SESSION
+SESSION_FOLDER=./sessions
+
+# 🚀 FEATURE TOGGLES
+AI_COMMANDS=on           # 🤖 AI Chat (ai, gpt)
+FUN_COMMANDS=on          # 😂 Fun (joke, quote, truth, dare)
+MEDIA_COMMANDS=on        # 🎞️ Media tools (sticker, tts, voice)
+IMAGE_COMMANDS=on        # 🖼️ Image gen (img, removebg, qr)
+DOWNLOAD_COMMANDS=on     # 📥 YT, Mediafire, etc
+ADMIN_COMMANDS=on        # 🔧 Group tools (antilink, tagall)
+
+# 🚫 GROUP CONTROL
+ANTILINK=on              # 🔗 Block WhatsApp/other links
+ANTIDELETE=on            # 🗑️ Restore deleted messages
+AUTOVIEW_STATUS=on       # 👁️ View statuses automatically
+BLOCK_BAD_WORDS=off      # 🧼 Profanity filter
+WELCOME_MSG=on           # 👋 Welcome for new members
+
+# 🌐 ONLINE PRESENCE
+SHOW_ONLINE=off
+SEEN_MESSAGE=on
+SEEN_STATUS=on
+
+# ⚙️ OTHER SETTINGS
+LANGUAGE=en
+LOG_CONSOLE=on
+LOG_CHAT_EVENTS=on
+ALLOW_COMMAND_EVERYONE=on
+ALLOW_COMMAND_ADMINS_ONLY=off
+SESSION_AUTO_DELETE=on
+
+# 📤 API & INTEGRATIONS
+USE_OPENAI=on
+OPENAI_API_KEY=your-openai-api-key-here
+IMG_API_KEY=your-image-api-key-here
+
+# 🧠 PERSONALITY
+BOT_DESCRIPTION=🤖 joker-art - Smart, Fast, & Fun WhatsApp Bot.
+FOOTER_TEXT=Powered by joker-art
+THEME_COLOR=#00FF99
+
+# 📸 AUTOSTICKER
+STICKER_AUTO=off
+STICKER_WM_NAME=Joker-Art
+STICKER_WM_AUTHOR=By Joker-Art
