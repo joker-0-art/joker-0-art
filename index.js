@@ -22,7 +22,7 @@ const store = makeInMemoryStore({ logger: P().child({ level: "silent", stream: "
 store.readFromFile("./baileys_store.json");
 setInterval(() => store.writeToFile("./baileys_store.json"), 10_000);
 
-// UI Setup
+// 🔧 UI Setup
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -30,25 +30,26 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+// 📩 Handle form submission
 app.post("/submit", (req, res) => {
   userPhoneNumber = req.body.phone?.trim();
+
   if (!userPhoneNumber || !/^255[0-9]{9}$/.test(userPhoneNumber)) {
-    return res.send(`
-      <script>alert("⚠️ Namba haiko sahihi. Anza na 255 na iwe na tarakimu 12."); window.history.back();</script>
-    `);
+    return res.send(`<script>alert("⚠️ Namba haiko sahihi. Anza na 255 na iwe na tarakimu 12."); window.history.back();</script>`);
   }
 
   const pairCode = Math.floor(10000000 + Math.random() * 90000000).toString();
+
   qrcode.toDataURL(pairCode, (err, qr) => {
     if (err) return res.send("❌ Imeshindikana kutengeneza QR");
     res.send(`
       <html>
-        <head><title>joker-md | Pairing</title></head>
+        <head><title>BEN WHITTAKER TECH | Pairing</title></head>
         <body style="text-align:center; font-family:sans-serif;">
           <h2>✅ Namba Yako: ${userPhoneNumber}</h2>
           <h3>🔐 Pair Code: <span style="color:green;">${pairCode}</span></h3>
           <img src="${qr}" alt="QR Code" width="200"/>
-          <p>📱 Tafadhali scan QR kwenye terminal ili kupata session yako.</p>
+          <p>📱 Scan QR kwenye terminal au tumia code hii kujipanga na WhatsApp yako.</p>
         </body>
       </html>
     `);
@@ -64,16 +65,18 @@ app.post("/submit", (req, res) => {
     logger: P({ level: "silent" }),
     printQRInTerminal: true,
     auth: state,
-    browser: ["joker-md", "Chrome", "1.0.0"],
+    browser: ["BEN WHITTAKER TECH", "Chrome", "1.0.0"],
   });
 
   store.bind(sock.ev);
   sock.ev.on("creds.update", saveCreds);
 
+  // 🔄 Handle connection status
   sock.ev.on("connection.update", async ({ connection, lastDisconnect }) => {
     if (connection === "open") {
       console.log("✅ WhatsApp Connected");
 
+      // Tuma session.zip
       const zip = new AdmZip();
       zip.addLocalFolder(SESSION_FOLDER);
       const zipPath = path.join(__dirname, "session.zip");
@@ -110,6 +113,7 @@ app.post("/submit", (req, res) => {
     }
   });
 
+  // 📥 Message Listener
   sock.ev.on("messages.upsert", async ({ messages }) => {
     const m = messages[0];
     if (!m.message || m.key.fromMe) return;
@@ -121,7 +125,7 @@ app.post("/submit", (req, res) => {
     const command = args.shift().toLowerCase();
 
     try {
-      const handler = require("./ben");
+      const handler = require("./ben"); // Load ben.js for commands
       await handler(sock, m, command, args);
     } catch (err) {
       console.error(err);
@@ -129,6 +133,7 @@ app.post("/submit", (req, res) => {
   });
 })();
 
+// 🌐 Start Web Server
 app.listen(PORT, () => {
   console.log(`🌍 Kisasa UI: http://localhost:${PORT}`);
 });
