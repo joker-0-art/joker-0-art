@@ -1,85 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>🤖 joker-art | WhatsApp Pairing</title>
-  <script src="/socket.io/socket.io.js"></script>
-  <style>
-    body {
-      background: #0a0a0a;
-      color: #0f0;
-      font-family: monospace;
-      text-align: center;
-      padding: 40px;
-    }
-    input {
-      padding: 10px;
-      font-size: 18px;
-      width: 260px;
-      border-radius: 8px;
-      border: 2px solid #0f0;
-      background: #000;
-      color: #0f0;
-      margin-bottom: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      background: #0f0;
-      color: #000;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    img {
-      margin-top: 20px;
-      width: 260px;
-      border: 2px solid #0f0;
-      display: none;
-    }
-    #pairCodeText {
-      font-size: 1.5em;
-      margin-top: 15px;
-      color: #00ffff;
-    }
-  </style>
-</head>
-<body>
-  <h1>🤖 joker-art Bot</h1>
-
-  <h3>📲 Ingiza Namba Yako ya WhatsApp</h3>
-  <input type="text" id="numberInput" placeholder="e.g. 255712345678" />
-  <br />
-  <button onclick="submitNumber()">Tuma Namba</button>
-
-  <div id="pairCodeText">⏳ Pairing code itatokea hapa...</div>
-  <img id="qrImg" />
-
-  <script>
-    const socket = io();
-
-    // On QR Code received
-    socket.on("qr", (data) => {
-      const img = document.getElementById("qrImg");
-      img.src = data;
-      img.style.display = "block";
-    });
-
-    // On Pairing Code received
-    socket.on("pairingCode", (code) => {
-      document.getElementById("pairCodeText").innerText = "🔐 Pairing Code: " + code;
-    });
-
-    // Submit number to server
-    function submitNumber() {
-      const number = document.getElementById("numberInput").value.trim();
-      if (number.length < 10 || isNaN(number)) {
-        alert("⚠️ Tafadhali weka namba sahihi ya WhatsApp (mfano 2557XXXXXXX)");
-        return;
-      }
-      socket.emit("submitNumber", number);
-      alert("✅ Namba imetumwa! Pairing code au QR itaonekana hapa.");
-    }
-  </script>
+<!-- public/index.html -->
+<html>
+<head><title>Pair Bot</title></head>
+<body style="text-align:center; font-family:sans-serif;">
+  <h2>🔐 Ingiza namba yako ya WhatsApp</h2>
+  <form method="POST" action="/submit">
+    <input name="phone" placeholder="Mfano: 255712345678" required />
+    <br/><br/>
+    <button type="submit">📩 Tuma</button>
+  </form>
 </body>
 </html>
